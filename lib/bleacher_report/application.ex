@@ -8,8 +8,6 @@ defmodule BleacherReport.Application do
   def start(_type, _args) do
     # List all child processes to be supervised
     children = [
-      # Start the Ecto repository
-      BleacherReport.Repo,
       # Start the endpoint when the application starts
       BleacherReportWeb.Endpoint,
       # Starts a worker by calling: BleacherReport.Worker.start_link(arg)

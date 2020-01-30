@@ -26,12 +26,6 @@ defmodule BleacherReportWeb.ChannelCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(BleacherReport.Repo)
-
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(BleacherReport.Repo, {:shared, self()})
-    end
-
     :ok
   end
 end
