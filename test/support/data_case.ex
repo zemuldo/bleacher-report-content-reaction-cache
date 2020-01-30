@@ -26,7 +26,6 @@ defmodule BleacherReport.DataCase do
   end
 
   setup tags do
-    
     :ok
   end
 

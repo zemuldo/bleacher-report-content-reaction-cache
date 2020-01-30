@@ -15,11 +15,13 @@ defmodule BleacherReport.Cache.Utils do
   end
 
   def for_existing_user_reaction([[status]], ets_table_name, action, content_id) do
-    update_event_reaction(ets_table_name, content_id, update_value(status, action))
+    value = update_value(status, action)
+    update_event_reaction(ets_table_name, content_id, value)
   end
 
   def for_existing_user_reaction([], ets_table_name, action, content_id) do
-    update_event_reaction(ets_table_name, content_id, update_value(action))
+    value = update_value(action)
+    update_event_reaction(ets_table_name, content_id, value)
   end
 
   def get_user_action(ets_table_name, user_id, content_id) do

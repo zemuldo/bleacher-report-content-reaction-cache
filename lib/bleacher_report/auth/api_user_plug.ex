@@ -2,7 +2,6 @@ defmodule BleacherReport.Auth.ApiUserPlug do
   import Plug.Conn
   use Phoenix.Controller
 
-
   alias BleacherReport.Auth.Token
 
   def init(options), do: options
