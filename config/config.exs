@@ -7,9 +7,6 @@
 # General application configuration
 use Mix.Config
 
-config :bleacher_report,
-  ecto_repos: [BleacherReport.Repo]
-
 # Configures the endpoint
 config :bleacher_report, BleacherReportWeb.Endpoint,
   url: [host: "localhost"],

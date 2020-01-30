@@ -59,11 +59,3 @@ config :phoenix, :stacktrace_depth, 20
 
 # Initialize plugs at runtime for faster development compilation
 config :phoenix, :plug_init_mode, :runtime
-
-# Configure your database
-config :bleacher_report, BleacherReport.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "bleacher_report_dev",
-  hostname: "localhost",
-  pool_size: 10

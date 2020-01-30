@@ -8,11 +8,3 @@ config :bleacher_report, BleacherReportWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
-
-# Configure your database
-config :bleacher_report, BleacherReport.Repo,
-  username: "postgres",
-  password: "postgres",
-  database: "bleacher_report_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
