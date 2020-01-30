@@ -22,10 +22,12 @@ defmodule BleacherReport.CacheServer do
     {:ok, %{}}
   end
 
+  # ETS update_count is provides atomicity, handle_call for writes - isolation, synchronous
   def handle_call({:new_user_action, user_id, content_id, action}, _, state) do
     {:reply, Utils.create_update_action({user_id, content_id, action}), state}
   end
 
+  # Keep out of genservers mail box for reads
   def get_reaction_counts(content_id) do
     Utils.lookup_content_count(content_id)
   end
