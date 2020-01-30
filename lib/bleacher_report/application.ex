@@ -11,9 +11,10 @@ defmodule BleacherReport.Application do
       # Start the Ecto repository
       BleacherReport.Repo,
       # Start the endpoint when the application starts
-      BleacherReportWeb.Endpoint
+      BleacherReportWeb.Endpoint,
       # Starts a worker by calling: BleacherReport.Worker.start_link(arg)
       # {BleacherReport.Worker, arg},
+      {BleacherReport.CacheServer, [name: :user_reactions_cache]}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
