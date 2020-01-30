@@ -26,14 +26,6 @@ defmodule BleacherReport.Cache.Utils do
     update_event_reaction(content_id, value)
   end
 
-  def get_user_action(user_id, content_id) do
-    case :ets.match(@env[:user_reactions_table], {user_id, content_id, :"$1"}) do
-      [[action]] -> {:ok, {user_id, content_id, action}}
-      [] -> {:error, "User action not registered"}
-      _ -> {:error, "User action fetch failed"}
-    end
-  end
-
   def lookup_content_count(content_id) do
     case :ets.lookup(@env[:reactions_counter_table], content_id) do
       [{content_id, count}] -> {:ok, {content_id, count}}

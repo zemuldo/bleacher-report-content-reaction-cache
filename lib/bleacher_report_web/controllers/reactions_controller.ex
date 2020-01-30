@@ -1,6 +1,8 @@
 defmodule BleacherReportWeb.ReactionsController do
   use BleacherReportWeb, :controller
 
+  alias BleacherReport.CacheServer
+
   @cache_table_name :user_reactions_cache
 
   @server_error %{errorType: "SERVER_ERROR", errorMessage: "Server error occurred"}
@@ -27,7 +29,7 @@ defmodule BleacherReportWeb.ReactionsController do
     do: conn |> put_status(400) |> render("error.json", %{errors: [@bad_reqeust_message]})
 
   def content_reactions(conn, %{"content_id" => content_id}) do
-    case GenServer.call(:user_reactions_cache, {:get_content_reaction_count, content_id}) do
+    case CacheServer.get_reaction_counts(content_id) do
       {:ok, {content_id, count}} ->
         conn |> render("data.json", %{data: %{content_id: content_id, count: count}})
 
