@@ -19,6 +19,8 @@ defmodule BleacherReportWeb.Router do
     get "/", PageController, :index
   end
 
+  
+
   # Other scopes may use custom stacks.
   # scope "/api", BleacherReportWeb do
   #   pipe_through :api

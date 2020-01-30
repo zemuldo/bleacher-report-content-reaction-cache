@@ -11,7 +11,8 @@ use Mix.Config
 config :bleacher_report, BleacherReportWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "SGe2XPg+ZfNXO8PuddHWTPohUxYCaW+WmTE0KVt6rybpeEQBvO76aW8xOi9oaAs1",
-  render_errors: [view: BleacherReportWeb.ErrorView, accepts: ~w(html json)],
+  api_auth_salt: "PohUxYCaW+WmTE0KVt6rybpeEQBvO763JxBMO0QlZjoe4sQnIIzdg88GQXhVmp1KS0",
+  render_errors: [view: BleacherReportWeb.ErrorView, accepts: ~w(json)],
   pubsub: [name: BleacherReport.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configures Elixir's Logger
