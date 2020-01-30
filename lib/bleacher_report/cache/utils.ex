@@ -4,22 +4,40 @@ defmodule BleacherReport.Cache.Utils do
 
   def create_table(ets_table_name, opts), do: :ets.new(ets_table_name, opts)
 
-  def insert_user_actions(ets_table_name, {user_id, content_id}) do
-    :ets.insert(ets_table_name, {user_id, content_id})
+  def create_update_action(ets_table_name, {user_id, content_id, action}) do
+    :ets.match(ets_table_name, {user_id, content_id, :"$1"})
+    |> for_existing_user_reaction(ets_table_name, action, content_id)
+
+    case :ets.insert(ets_table_name, {user_id, content_id, action}) do
+      true -> {:ok, {user_id, content_id, action}}
+      _ -> {:error, "Could not add new action"}
+    end
   end
 
-  def get_by_content_id(ets_table_name, content_id) do
-    :ets.match(ets_table_name, {:"$1", content_id})
+  def for_existing_user_reaction([[status]], ets_table_name, action, content_id) do
+    update_event_reaction(ets_table_name, content_id, update_value(status, action))
+  end
+
+  def for_existing_user_reaction([], ets_table_name, action, content_id) do
+    update_event_reaction(ets_table_name, content_id, update_value(action))
+  end
+
+  def get_user_action(ets_table_name, user_id, content_id) do
+    case :ets.match(ets_table_name, {user_id, content_id, :"$1"}) do
+      [[action]] -> {:ok, {user_id, content_id, action}}
+      [] -> {:error, "User action not registered"}
+      _ -> {:error, "User action fetch failed"}
+    end
   end
 
   def lookup_content_count(ets_table_name, content_id) do
     case :ets.lookup(ets_table_name, content_id) do
-      [{content_id, count}] -> {content_id, count}
-      [] -> {:error, "Content reaction count not found"}
-      _ -> {:error, "Error occured"}
+      [{content_id, count}] -> {:ok, {content_id, count}}
+      [] -> {:error, 404, "Content reaction count not found"}
+      _ -> {:error, 500, "Error occured"}
     end
   end
-  
+
   def update_event_reaction(ets_table_name, content_id, update_value) when update_value < 0 do
     :ets.update_counter(
       ets_table_name,
@@ -36,5 +54,16 @@ defmodule BleacherReport.Cache.Utils do
       update_value,
       {update_value, @default_count_value}
     )
+  end
+
+  defp update_value(:removed), do: 0
+  defp update_value(:added), do: 1
+
+  defp update_value(status, action) do
+    case {status, action} do
+      {:added, :removed} -> -1
+      {:removed, :added} -> 1
+      {_status, _action} -> 0
+    end
   end
 end
