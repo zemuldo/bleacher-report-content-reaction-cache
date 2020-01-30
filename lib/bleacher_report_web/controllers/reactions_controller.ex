@@ -31,7 +31,7 @@ defmodule BleacherReportWeb.ReactionsController do
   def content_reactions(conn, %{"content_id" => content_id}) do
     case CacheServer.get_reaction_counts(content_id) do
       {:ok, {content_id, count}} ->
-        conn |> render("data.json", %{data: %{content_id: content_id, count: count}})
+        conn |> render("data.json", %{data: %{content_id: content_id, reaction_count: %{fire: count}}})
 
       {:error, status, message} ->
         conn
