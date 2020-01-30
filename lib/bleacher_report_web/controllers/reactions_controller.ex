@@ -6,10 +6,6 @@ defmodule BleacherReportWeb.ReactionsController do
   @server_error %{errorType: "SERVER_ERROR", errorMessage: "Server error occurred"}
   @bad_reqeust_message %{errorType: "BAD_REQUEST", errorMessage: "Check your reqeust data"}
 
-  def index(conn, _params) do
-    render(conn, "index.html")
-  end
-
   def new_update(conn, %{"content_id" => content_id, "action" => action, "user_id" => user_id}) do
     action_atom = action |> String.to_atom()
 
@@ -38,10 +34,16 @@ defmodule BleacherReportWeb.ReactionsController do
       {:error, status, message} ->
         conn
         |> put_status(status)
-        |> render("error.json", %{errors: [%{errorType: "BAD_REQUEST", errorMessage: message}]})
+        |> render("error.json", %{
+          errors: [%{errorType: status |> error_type_defs(), errorMessage: message}]
+        })
     end
   end
 
   def content_reactions(conn, _),
     do: conn |> put_status(400) |> render("error.json", %{errors: [@bad_reqeust_message]})
+
+  defp error_type_defs(404), do: "NOT_FOUND"
+  defp error_type_defs(400), do: "BAD_REQUEST"
+  defp error_type_defs(_), do: "SERVER_ERROR"
 end
