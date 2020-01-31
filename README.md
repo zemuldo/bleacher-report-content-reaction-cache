@@ -8,6 +8,7 @@ A MicroService that stores cache of user actions using OTPs ETS. The service exp
 
 ## Generate Token
 
+Note that the token in the example below works as the key and salt are hard-coded 🙅
 Get an interactive shell
 
 ```shell

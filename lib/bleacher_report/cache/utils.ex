@@ -4,8 +4,7 @@ defmodule BleacherReport.Cache.Utils do
 
   @env Application.get_env(:bleacher_report, BleacherReport.Cache)
 
-  def create_table(ets_table_name, opts), do: :ets.new(ets_table_name, opts)
-  def delete_table(ets_table_name, opts), do: :ets.delete_all_objects(ets_table_name)
+  def create_table(ets_table_name, opts), do: :ets.new(ets_table_name, _)
 
   def create_update_action({user_id, content_id, action}) do
     :ets.match(@env[:user_reactions_table], {user_id, content_id, :"$1"})
