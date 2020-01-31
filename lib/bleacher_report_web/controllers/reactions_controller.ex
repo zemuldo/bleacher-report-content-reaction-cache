@@ -11,10 +11,7 @@ defmodule BleacherReportWeb.ReactionsController do
   def new_update(conn, %{"content_id" => content_id, "action" => action, "user_id" => user_id}) do
     action_atom = action |> String.to_atom()
 
-    case GenServer.call(
-           :user_reactions_cache,
-           {:new_user_action, user_id, content_id, action_atom}
-         ) do
+    case CacheServer.new_user_action(user_id, content_id, action_atom) do
       {:ok, _} ->
         conn |> render("data.json", %{data: "ok"})
 
@@ -31,7 +28,8 @@ defmodule BleacherReportWeb.ReactionsController do
   def content_reactions(conn, %{"content_id" => content_id}) do
     case CacheServer.get_reaction_counts(content_id) do
       {:ok, {content_id, count}} ->
-        conn |> render("data.json", %{data: %{content_id: content_id, reaction_count: %{fire: count}}})
+        conn
+        |> render("data.json", %{data: %{content_id: content_id, reaction_count: %{fire: count}}})
 
       {:error, status, message} ->
         conn
