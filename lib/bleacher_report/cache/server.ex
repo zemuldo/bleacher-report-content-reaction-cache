@@ -27,6 +27,12 @@ defmodule BleacherReport.CacheServer do
     {:reply, Utils.create_update_action({user_id, content_id, action}), state}
   end
 
+  def handle_call({:clear}, _, state) do
+   user_data= Utils.delete_table(@env[:user_reactions_table]) |> IO.inspect()
+    counter = Utils.delete_table(@env[:reactions_counter_table]) |> IO.inspect()
+    {:reply, {user_data, counter}, state}
+  end
+
   def new_user_actions(user_id, content_id, action_atom) do
     GenServer.call(:user_reactions_cache, {:new_user_action, user_id, content_id, action_atom})
   end

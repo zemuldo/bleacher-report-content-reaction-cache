@@ -11,7 +11,7 @@ defmodule BleacherReportWeb.ReactionsController do
   def new_update(conn, %{"content_id" => content_id, "action" => action, "user_id" => user_id}) do
     action_atom = action |> String.to_atom()
 
-    case CacheServer.new_user_action(user_id, content_id, action_atom) do
+    case CacheServer.new_user_actions(user_id, content_id, action_atom) do
       {:ok, _} ->
         conn |> render("data.json", %{data: "ok"})
 

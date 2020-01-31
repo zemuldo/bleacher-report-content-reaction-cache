@@ -4,6 +4,9 @@ defmodule BleacherReport.Fixtures do
   def fixture(:token, :null), do: nil
   def fixture(:token, :invalid), do: "1234567890-not-valid"
 
+  def fixture(:user_id, :valid), do: "91111"
+
+  def fixture(:content_id, :valid), do: "66865"
   def fixture(:content_id, :valid_1), do: "56765"
   def fixture(:content_id, :valid_2), do: "55643"
   def fixture(:content_id, :valid_3), do: "34524"
